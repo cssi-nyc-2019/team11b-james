@@ -141,45 +141,34 @@ class DayHandler(BaseHandler):
 	def get(self):
 		day_template = the_jinja_env.get_template("templates/day.html")
 		user = getCurrentUser(self)
-       userDate = self.request.get('date')
 		if user is not None:
 			user_info = User.query().filter(User.username == getCurrentUser(self)).fetch()
-<<<<<<< HEAD
 
-		self.response.write(day_template.render())
-=======
+
     
 
 
-
-<<<<<<< HEAD
-       variable_dict = {
+  def post(self):
+      userDate = self.request.get('date')
+      variable_dict = {
          'fullDate': userDate
        }
 		   self.response.write(day_template.render(variable_dict))
-=======
-   
->>>>>>> 6447e75183b8426e8c2996752a77d70781043018
 
->>>>>>> b240287fd9b3f3675a9dfb552e62de0fc9c49dcb
 
 
 class DailyObjective(BaseHandler):
 	def post(self):
 		user = getCurrentUser(self)
 		objective = self.request.get('objective')
-<<<<<<< HEAD
+
 
 		new_objective = Objective(name=objective,user=user)
-=======
 		new_objective = Objective(name=objective,user=user)
-<<<<<<< HEAD
-		
-=======
+
 		new_objective = Objective(name=objective)
 		events_query = Event.query().fetch()
->>>>>>> 6447e75183b8426e8c2996752a77d70781043018
->>>>>>> b240287fd9b3f3675a9dfb552e62de0fc9c49dcb
+
 
 		objectives_query = Objective.query().fetch()
 
@@ -189,10 +178,7 @@ class DailyObjective(BaseHandler):
 
 		variable_dict = { 
 			'objectives': objectives_query,
-<<<<<<< HEAD
-			
-=======
->>>>>>> b240287fd9b3f3675a9dfb552e62de0fc9c49dcb
+
 		}
 
 		day_template = the_jinja_env.get_template('templates/day.html')
@@ -200,15 +186,11 @@ class DailyObjective(BaseHandler):
 
 class DailyEvent(webapp2.RequestHandler):
 	def post(self):
-<<<<<<< HEAD
     user = getCurrentUser(self)
 		event = self.request.get('event')
 		new_event = Event(name=event, user = user)
-=======
-		user = getCurrentUser(self)
-		event = self.request.get('event')
-		new_event = Event(name=event,user=user)
->>>>>>> b240287fd9b3f3675a9dfb552e62de0fc9c49dcb
+
+		
 
 		events_query = Event.query().fetch()
 
