@@ -218,9 +218,11 @@ class DayLayoutHandler(webapp2.RequestHandler):
 		self.response.write(day_template.render())
 >>>>>>> 54f2e4f5266cc859bd7e3a5fd7563a406c1753ec
 
+
 	def post(self):
 		event = self.request.get('event');
 		objective = self.request.get('objective')
+    date = self.request.get('objecti')
 		new_event = Event(name=event)
 		new_objective = Objective(name=objective)
 
@@ -236,6 +238,8 @@ class DayLayoutHandler(webapp2.RequestHandler):
 		variable_dict = { 
 			'objectives': objectives_query,
 			'events': events_query
+      'fullDate': date
+
 		}
 
 		day_template = the_jinja_env.get_template('templates/day.html')
@@ -308,7 +312,7 @@ app = webapp2.WSGIApplication([
   ('/about', AboutHandler),
   ('/planner',PlannerHandler),
   ('daily_objective', DailyObjective),
-  ('daily_event', DailyEvent),
+  ('daily_event', DailyEvent, ),
   # ('/signout',SignOut),
   ('/day',DayLayoutHandler),
   ('signout', MainHandler)

@@ -97,8 +97,8 @@ function showDaily(){
     console.log('Getting daily data')
     let id = this.id
     newID = id
-    $('.template').append(`The date is ${id} `)
     $(location).attr('href', '/day')
+    $('.template').append(`The date is ${id} `)
     console.log(id)
 
 
