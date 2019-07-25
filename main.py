@@ -143,23 +143,17 @@ class DayHandler(BaseHandler):
 		user = getCurrentUser(self)
 		if user is not None:
 			user_info = User.query().filter(User.username == getCurrentUser(self)).fetch()
-<<<<<<< HEAD
+
 		self.response.write(day_template.render())
 
-=======
-			
->>>>>>> bcb3356032b8bccb342cbe1d782feefb61614f93
 
-class DailyObjective(webapp2.RequestHandler):
+
+class DailyObjective(BaseHandler):
 	def post(self):
 		user = getCurrentUser(self)
 		objective = self.request.get('objective')
-<<<<<<< HEAD
+
 		new_objective = Objective(name=objective,user=user)
-=======
-		new_objective = Objective(name=objective)
-		events_query = Event.query().fetch()
->>>>>>> 3c7f64a85122392e53ea048883323a254bbca99b
 
 		objectives_query = Objective.query().fetch()
 
@@ -169,9 +163,6 @@ class DailyObjective(webapp2.RequestHandler):
 
 		variable_dict = { 
 			'objectives': objectives_query,
-			'events': events_query,
-
-			'objectives':objectives_query
 		}
 
 		day_template = the_jinja_env.get_template('templates/day.html')
@@ -179,8 +170,9 @@ class DailyObjective(webapp2.RequestHandler):
 
 class DailyEvent(webapp2.RequestHandler):
 	def post(self):
+		user = getCurrentUser(self)
 		event = self.request.get('event')
-		new_event = Event(name=event)
+		new_event = Event(name=event,user=user)
 
 		events_query = Event.query().fetch()
 
