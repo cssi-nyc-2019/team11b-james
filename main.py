@@ -101,7 +101,6 @@ class DayLayoutHandler(webapp2.RequestHandler):
 	def post(self):
 		event = self.request.get('event');
 		objective = self.request.get('objective')
-    date = self.request.get('objecti')
 		new_event = Event(name=event)
 		new_objective = Objective(name=objective)
 
