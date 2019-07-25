@@ -73,7 +73,11 @@ class ValidateUser(webapp2.RequestHandler):
 		# 	'message': "Your account doesn't exist, please sign up."
 		# 	}
 
-		# 	self.response.write(planner_template.render(variable_dict))
+class SignOut(webapp2.RequestHandler):
+	def get(self):
+		current_user=''
+		home_template = the_jinja_env.get_template('templates/home.html')
+		self.response.write(home_template.render())
 
 		planner_template = the_jinja_env.get_template('templates/planner.html')
 		self.response.write(planner_template.render(variable_dict))
@@ -111,6 +115,7 @@ class Planner(webapp2.RequestHandler):
 class DailyObjective(webapp2.RequestHandler):
 	def post(self):
 		objective = self.request.get('objective')
+    theDate = self.request.get('name')
 		new_objective = Objective(name=objective)
 
 		objectives_query = Objective.query().fetch()
@@ -143,7 +148,7 @@ class DailyEvent(webapp2.RequestHandler):
 
 		day_template = the_jinja_env.get_template('templates/day.html')
 		self.response.write(day_template.render(variable_dict))
->>>>>>> 8cb886eccf268b4c6ecbd47c5f29980a66e540b0
+ 
 
 
 
