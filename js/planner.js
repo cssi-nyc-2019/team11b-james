@@ -106,10 +106,3 @@ function showDaily(){
 
 });
 
-let date = newID;
-const xhr = newXMLHTTPRequest();
-xhr.onload = function(){
-  xhr.open('POST','/day')
-  xhr.setRequestHeader();
-  xhr.send("date = date")
-}
