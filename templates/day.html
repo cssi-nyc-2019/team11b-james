@@ -19,12 +19,14 @@
 	<!--Main-->
 	<div id="main">
 		<div>
+			<h1>The date is {{fullDate}}</h1>
 			<form method="post" action="/daily_objective">
 				<input type="text" name="objective" placeholder="Enter an objective: " >
 				<input id= "add_objective" type="submit" value="+">
 				<h1>hello</h1>
 			</form>
 			<form>
+
 				{% for objective in objectives %}
 				{{objective.name}}
 				<input class="objective" type="checkbox" name="objective">
