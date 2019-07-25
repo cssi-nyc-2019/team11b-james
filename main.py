@@ -143,8 +143,12 @@ class DayHandler(BaseHandler):
 		user = getCurrentUser(self)
 		if user is not None:
 			user_info = User.query().filter(User.username == getCurrentUser(self)).fetch()
+<<<<<<< HEAD
 		self.response.write(day_template.render())
 
+=======
+			
+>>>>>>> bcb3356032b8bccb342cbe1d782feefb61614f93
 
 class DailyObjective(webapp2.RequestHandler):
 	def post(self):
@@ -165,7 +169,7 @@ class DailyObjective(webapp2.RequestHandler):
 
 		variable_dict = { 
 			'objectives': objectives_query,
-			'events': events_query
+			'events': events_query,
 
 			'objectives':objectives_query
 		}
