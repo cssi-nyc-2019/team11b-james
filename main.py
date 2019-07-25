@@ -103,7 +103,6 @@ class DayLayoutHandler(webapp2.RequestHandler):
 		objective = self.request.get('objective')
 		new_event = Event(name=event)
 		new_objective = Objective(name=objective)
-
 		events_query = Event.query().fetch()
 		objectives_query = Objective.query().fetch()
 
@@ -116,7 +115,6 @@ class DayLayoutHandler(webapp2.RequestHandler):
 		variable_dict = { 
 			'objectives': objectives_query,
 			'events': events_query
-      'fullDate': date
 
 		}
 
