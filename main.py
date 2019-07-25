@@ -2,7 +2,7 @@
 import webapp2
 import jinja2
 import os
-from models import User, Objective, Event
+from models import User
 
 
 # this initializes the jinja2 environment
@@ -14,24 +14,29 @@ the_jinja_env = jinja2.Environment(
 
 # other functions should go above the handlers or in a separate file
 
+<<<<<<< HEAD
 current_user = "madaf"
+=======
+<<<<<<< HEAD
+=======
+current_user = ""
+>>>>>>> 0b7fb9d8c693fdcba204b0213f09546600b8f457
 users_query = User.query().fetch()
+>>>>>>> 8cb886eccf268b4c6ecbd47c5f29980a66e540b0
 
 class MainHandler(webapp2.RequestHandler):
   def get(self):  # for a get request
     home_template = the_jinja_env.get_template('templates/home.html')
     self.response.write(home_template.render())
 
-class LoggedHomeHandler(webapp2.RequestHandler):
-	def get(self):
-		logged_home_template = the_jinja_env.get_template('templates/logged_home.html')
-		self.response.write(logged_home_template.render())
-
 class LoginHandler(webapp2.RequestHandler):
   def get(self):  # for a get request
     login_template = the_jinja_env.get_template('templates/login.html')
     self.response.write(login_template.render())
 
+<<<<<<< HEAD
+class SignHandler(webapp2.RequestHandler):
+=======
   def post(self):
 		planner_template = the_jinja_env.get_template('templates/planner.html')
 		login_template = the_jinja_env.get_template('templates/login.html')
@@ -56,31 +61,56 @@ class LoginHandler(webapp2.RequestHandler):
 			}
 			self.response.write(login_template.render(variable_dict))
 class SignUpHandler(webapp2.RequestHandler):
+>>>>>>> 8cb886eccf268b4c6ecbd47c5f29980a66e540b0
   def get(self):  # for a get request
     sign_template = the_jinja_env.get_template('templates/sign.html')
     self.response.write(sign_template.render())
-  def post(self):
+
+class AboutHandler(webapp2.RequestHandler):
+	def get(self):
+	   about_template = the_jinja_env.get_template('templates/about.html')
+	   self.response.write(about_template.render())
+
+<<<<<<< HEAD
+class SignUp(webapp2.RequestHandler):
+    def post(self):
         username = self.request.get('username')
         email = self.request.get('email')
         password = self.request.get('password')
         fullname = self.request.get('fullname')
 
-        user_input = User(fullname = fullname, username = username, email = email, password = password)
-        usernames = []
-        for user in users_query:
-			usernames.append(user.username)
-        if not (user_input.username in usernames):
-	        users_query.insert(0,user_input)
-	        user_input.put()
+        user = User(fullname = fullname, username = username, email = email, password = password)
+        query = User().query().filter(User.username).fetch()
+        if not (user in query):
+	        query.insert(0,user)
+	        user.put()
 
-		login_template = the_jinja_env.get_template('templates/login.html')
-		self.response.write(login_template.render())
 
-class AboutHandler(webapp2.RequestHandler):
-	def get(self):
-		about_template = the_jinja_env.get_template('templates/about.html')
-		self.response.write(about_template.render())
+class ValidateUser(webapp2.RequestHandler):
+	def post(self):
 
+		planner_template = the_jinja_env.get_template('templates/planner.html')
+		username = self.request.get('username')
+		password = self.request.get('password')
+		# usernames = User.query().filter(User.username).fetch()
+		# passwords =User.query().filter(User.password).fetch()
+
+		# if (username in usernames) and (password in passwords):
+		# 	user = User.query().filter(User.username==name).fetch()
+		# 	user.islogged=True
+		# 	variable_dict={
+		# 		'username':user.username
+		# 	}
+		# 	self.response.write(planner_template.render(variable_dict))
+		
+		# else:
+		# 	variable_dict={
+		# 	'message': "Your account doesn't exist, please sign up."
+		# 	}
+			
+		# 	self.response.write(planner_template.render(variable_dict))
+
+=======
 class SignOut(webapp2.RequestHandler):
 	def get(self):
 		current_user=''
@@ -92,11 +122,16 @@ class PlannerHandler(webapp2.RequestHandler):
 		variable_dict = {
 		'username':current_user
 		}
+>>>>>>> 8cb886eccf268b4c6ecbd47c5f29980a66e540b0
 		planner_template = the_jinja_env.get_template('templates/planner.html')
 		self.response.write(planner_template.render(variable_dict))
 
-class DayLayoutHandler(webapp2.RequestHandler):
+class Planner(webapp2.RequestHandler):
 	def get(self):
+<<<<<<< HEAD
+		planner_template = the_jinja_env.get_template('templates/planner.html')
+		self.response.write(planner_template.render())
+=======
 
 		day_template = the_jinja_env.get_template('templates/day.html')
 		self.response.write(day_template.render())
@@ -136,6 +171,7 @@ class DailyEvent(webapp2.RequestHandler):
 
 		day_template = the_jinja_env.get_template('templates/day.html')
 		self.response.write(day_template.render(variable_dict))
+>>>>>>> 8cb886eccf268b4c6ecbd47c5f29980a66e540b0
 
 
 
@@ -143,13 +179,18 @@ class DailyEvent(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
   #('/', MainPage),
   ('/', MainHandler),
-  ('/logged_home',LoggedHomeHandler),
   ('/login', LoginHandler),
-  ('/sign', SignUpHandler),
+  ('/sign', SignHandler),
   ('/about', AboutHandler),
+<<<<<<< HEAD
+  ('/uploadUser', SignUp),
+  ('/validateUser',ValidateUser),
+  ('/planner',Planner)
+=======
   ('/planner',PlannerHandler),
   ('/daily_objective',DailyObjective),
   ('/daily_event', DailyEvent),
   ('/signout',SignOut),
   ('/day',DayLayoutHandler)
+>>>>>>> 8cb886eccf268b4c6ecbd47c5f29980a66e540b0
   ], debug=True)

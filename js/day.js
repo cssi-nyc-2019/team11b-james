@@ -30,9 +30,11 @@ function addEvent(){
 	event.setAttribute('type','text');
  	event.setAttribute('name','event');
  	event.setAttribute('placeholder','Enter your event.');
-	eventContainer.appendChild(event);
-
-}
-
-
-let events = document.querySelector()
+	eventContainer.appendChild(event)
+	deleteEventButton = document.createElement('button');
+	deleteEventButton.appendChild(document.createTextNode('Delete Event'));
+	eventContainer.appendChild(deleteEventButton);
+	deleteEventButton.addEventListener('click',deleteEvent);
+	function deleteEvent(){
+	 	eventList.removeChild(eventContainer);
+	}
