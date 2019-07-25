@@ -98,6 +98,7 @@ function showDaily(){
     let id = this.id
     newID = id
     $('.template').append(`The date is ${id} `)
+    $(location).attr('href', '/day')
     console.log(id)
 
 
@@ -105,10 +106,3 @@ function showDaily(){
 
 });
 
-let date = newID;
-const xhr = newXMLHTTPRequest();
-xhr.onload = function(){
-  xhr.open('POST','/day')
-  xhr.setRequestHeader();
-  xhr.send("date = date")
-}
