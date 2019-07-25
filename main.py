@@ -139,18 +139,18 @@ class Planner(BaseHandler):
 
 class DayHandler(BaseHandler):
 	def get():
+		day_template = the_jinja_env.get_template("templates/day.html")
 		user = getCurrentUser(self)
 		if user is not None:
 			user_info = User.query().filter(User.username == getCurrentUser(self)).fetch()
-			variable_dict = {
-				"objectives":
-			}
+		self.response.write(day_template.render())
 
 
 class DailyObjective(webapp2.RequestHandler):
 	def post(self):
+		user = getCurrentUser(self)
 		objective = self.request.get('objective')
-		new_objective = Objective(name=objective)
+		new_objective = Objective(name=objective,user=user)
 
 		objectives_query = Objective.query().fetch()
 
