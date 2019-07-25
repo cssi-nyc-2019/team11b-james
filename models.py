@@ -9,9 +9,11 @@ class User(ndb.Model):
 class Objective(ndb.Model):
 	name = ndb.StringProperty(required=True)
 	objective_complete = ndb.BooleanProperty(required=False)
-	# user =
-
+	user = ''
+	date = ''
 class Event(ndb.Model):
 	name = ndb.StringProperty(required=True)
+	user = ''
 	date = ndb.StringProperty(required=True)
 	# user = 
+

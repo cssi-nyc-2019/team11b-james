@@ -18,25 +18,26 @@
 
 	<!--Main-->
 	<div id="main">
-		<div id="objectives">
+		<div>
 			<form method="post" action="/daily_objective">
 				<input type="text" name="objective" placeholder="Enter an objective: " >
-				<input type="submit" value="Add">
+				<input id= "add_objective" type="submit" value="+">
 			</form>
 			<form>
 				{% for objective in objectives %}
-				<input type="checkbox" name="objective" value={{objective.name}}>
+				{{objective.name}}
+				<input class="objective" type="checkbox" name="objective">
 				{% endfor %}
 			</form>
 		</div>
 		<div id="day">
 			<form method="post" action="/daily_event">
 				<input type="text" name="event" placeholder="Enter an event: " >
-				<input type="submit" value="Add">
+				<input id="add_event" type="submit" value="+">
 			</form>
 			<ul>
 				{% for event in events %}
-				<li>{{event.name}}</li>
+				<li class="event">{{event.name}}</li>
 				{% endfor %}
 			</ul>
 		</div>

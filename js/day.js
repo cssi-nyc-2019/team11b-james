@@ -15,15 +15,6 @@ function addObjective(){
  	objective.setAttribute('placeholder','Enter your daily objective.');
 	objectiveContainer.appendChild(objective);
 
-	deleteObjectiveButton = document.createElement('button');
-	deleteObjectiveButton.appendChild(document.createTextNode('Delete Objective'));
-	objectiveContainer.appendChild(deleteObjectiveButton);
-	deleteObjectiveButton.addEventListener('click',deleteObjective);
-	function deleteObjective(){
-	 	objectiveForm.removeChild(objectiveContainer);
-	}
-
-
 }
 
 
@@ -39,8 +30,7 @@ function addEvent(){
 	event.setAttribute('type','text');
  	event.setAttribute('name','event');
  	event.setAttribute('placeholder','Enter your event.');
-	eventContainer.appendChild(event);
-
+	eventContainer.appendChild(event)
 	deleteEventButton = document.createElement('button');
 	deleteEventButton.appendChild(document.createTextNode('Delete Event'));
 	eventContainer.appendChild(deleteEventButton);
@@ -48,7 +38,3 @@ function addEvent(){
 	function deleteEvent(){
 	 	eventList.removeChild(eventContainer);
 	}
-
-}
-
-
