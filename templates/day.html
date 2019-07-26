@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>SPYDR</title>
-	<link rel="stylesheet" type="text/css" href="themes/home.css">
+	<link rel="stylesheet" type="text/css" href="themes/day.css">
 	<link rel="icon" href="images/icon.png">
 
 </head>
@@ -10,7 +10,7 @@
 	<!--Navigation-->
 	<ul id="nav_bar">
 		<li><a href="/logged_home">Home</a></li>
-		<li><a href="/about">About</a></li>
+		<li><a href="/account">Account</a></li>
 		<li><img id="logo" src="images/icon.png"></li>
 		<li><a href="/planner">Calendar</a></li>
 		<li><a href="/logout">Log Out</a></li>
@@ -18,33 +18,42 @@
 
 	<!--Main-->
 	<div id="main">
-		<div>
-			<h1>The date is {{fullDate}}</h1>
-			<form method="post" action="/daily_objective">
-				<input type="text" name="objective" placeholder="Enter an objective: " >
-				<input id= "add_objective" type="submit" value="+">
-				<h1>hello</h1>
-			</form>
-			<form>
+		<h1>{{date}}</h1>
+		<div class="section">
+			<h1>Daily Objectives</h1>
 
+			<form method="post" action="/objectives">
+				<input type="text" name="objective" value="Enter objective ..." placeholder="Enter an objective: " >
+				<button class= "add" type="submit">+</button>
+			</form>
+
+			<div id="objectives">
 				{% for objective in objectives %}
-				{{objective.name}}
-				<input class="objective" type="checkbox" name="objective">
+					<div>
+						{{objective.name}}
+						<input class="objective" type="checkbox" name="objective">
+					</div>
 				{% endfor %}
-			</form>
+			</div>
 		</div>
-		<div id="day">
-			<form method="post" action="/daily_event">
-				<input type="text" name="event" placeholder="Enter an event: " >
-				<input id="add_event" type="submit" value="+">
+
+		<div class="section">
+			<h1>Daily Events</h1>
+
+			<form method="post" action="/events">
+				<input type="text" name="event" value="Enter event ..." placeholder="Enter an event: " >
+				<button class="add" type="submit">+</button>
 			</form>
-			<ul>
+
+			<ul id="events">
 				{% for event in events %}
-				<li class="event">{{event.name}}</li>
+					<li class="event">{{event.name}}</li>
 				{% endfor %}
 			</ul>
 		</div>
+
 	</div>
 <script type="text/javascript" src="js/day.js"></script>
+<!-- <script type="text/javascript" src="js/planner.js"></script> -->
 </body>
 </html>

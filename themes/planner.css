@@ -1,32 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 
-a:link {
-  color:  white;
-}
-
-/* visited link */
-a:visited {
-  color: white;
-}
-
-/* mouse over link */
-a:hover {
-  color: blue;
-}
-
-/* selected link */
-a:active {
-  color: white;
-}
-
-.template{
-	margin-top: 3em;
-}
-
-
-td:hover {
-	background-color: blue;
-}
 :root{
 	--yellow:rgb(255,255,102);
 	--blue:rgb(114,216,255);
@@ -96,4 +69,28 @@ body{
 	text-align:center;
 }
 
+a:link {
+  color:  white;
+}
+
+/* visited link */
+a:visited {
+  color: white;
+}
+
+/* mouse over link */
+a:hover {
+  color: blue;
+}
+
+/* selected link */
+a:active {
+  color: white;
+}
+
+
+
+td:hover {
+	background-color: blue;
+}
 

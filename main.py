@@ -30,7 +30,7 @@ def isLoggedIn(self):
 	else:
 		return False
 
-users_query = User.query().fetch()
+
 
 class BaseHandler(webapp2.RequestHandler):
     def dispatch(self):
@@ -49,12 +49,22 @@ class BaseHandler(webapp2.RequestHandler):
 
 
 
-
+users_query = User.query().fetch()
 
 class MainHandler(webapp2.RequestHandler):
 	def get(self):  # for a get request
 		home_template = the_jinja_env.get_template('templates/home.html')
 		self.response.write(home_template.render())
+
+class LoggedInHome(BaseHandler):
+	def get(self):
+		logged_home_template = the_jinja_env.get_template('templates/logged_home.html')
+		self.response.write(logged_home_template.render())
+
+class AboutHandler(webapp2.RequestHandler):
+	def get(self):
+	   about_template = the_jinja_env.get_template('templates/about.html')
+	   self.response.write(about_template.render())
 
 class LoginHandler(BaseHandler):
 	def get(self):
@@ -64,36 +74,26 @@ class LoginHandler(BaseHandler):
 	def post(self):
 		planner_template = the_jinja_env.get_template('templates/planner.html')
 		login_template = the_jinja_env.get_template('templates/login.html')
+
 		username_input = self.request.get('username')
 		password_input = self.request.get('password')
 
 
 
-		variable_dict={}
 		for user in users_query:
 			if (username_input==user.username) and (password_input==user.password):
-				login(self, username_input)
-	    		user = getCurrentUser(self)
+				login(self, user.username)
+	    		current_user = getCurrentUser(self)
 	    		variable_dict = {
-	    			'username':user
+	    			'username':current_user
 	    		}
 	    		self.response.write(planner_template.render(variable_dict))
 			continue
-		if variable_dict=={}:
+		if isLoggedIn(self)==False:
 			variable_dict={
 				"message":"We could not find your account, please try again."
 			}
 			self.response.write(login_template.render(variable_dict))
-
-
-
-
-  
-
-class AboutHandler(webapp2.RequestHandler):
-	def get(self):
-	   about_template = the_jinja_env.get_template('templates/about.html')
-	   self.response.write(about_template.render())
 
 
 class SignUp(BaseHandler):
@@ -101,13 +101,14 @@ class SignUp(BaseHandler):
 		sign_template = the_jinja_env.get_template('templates/sign.html')
 		self.response.write(sign_template.render())
 	def post(self):
+		fullname = self.request.get('fullname')
 		email = self.request.get('email')
 		username = self.request.get('username')
 		password = self.request.get('password')
 
-		user = User(username=username,password=password,email=email)
-		query=User.query().fetch()
-		query.insert(0,user)
+		user = User(fullname=fullname,username=username,email=email,password=
+			password)
+
 		user_id=user.put()
 
 		login_template = the_jinja_env.get_template('templates/login.html')
@@ -119,8 +120,8 @@ class SignUp(BaseHandler):
 class LogOut(BaseHandler):
 	def get(self):
 		home_template = the_jinja_env.get_template('templates/home.html')
-		user = getCurrentUser(self)
-		if user is not None:
+		current_user = getCurrentUser(self)
+		if current_user is not None:
 				logout(self)
 				self.response.write(home_template.render())
 		else:
@@ -137,75 +138,46 @@ class Planner(BaseHandler):
 		else:
 			self.redirect('/')
 
-class DayHandler(BaseHandler):
-	def get(self):
-		day_template = the_jinja_env.get_template("templates/day.html")
-		user = getCurrentUser(self)
-       userDate = self.request.get('date')
-		if user is not None:
-			user_info = User.query().filter(User.username == getCurrentUser(self)).fetch()
-
-
-
-		self.response.write(day_template.render())
-
-       variable_dict = {
-         'fullDate': userDate
-       }
-		   self.response.write(day_template.render(variable_dict))
-
-
-
-class DailyObjective(BaseHandler):
 	def post(self):
-		user = getCurrentUser(self)
-		objective = self.request.get('objective')
+		day_template = the_jinja_env.get_template("templates/day.html")
 
-
-		new_objective = Objective(name=objective,user=user)
-
-		new_objective = Objective(name=objective,user=user)
-
-		new_objective = Objective(name=objective)
-		events_query = Event.query().fetch()
-
-
-		objectives_query = Objective.query().fetch()
-
-
-		objectives_query.insert(0,new_objective)
-		new_objective.put()
-
-		variable_dict = { 
-			'objectives': objectives_query,
+		current_user = getCurrentUser(self)
+		current_date = self.request.get('current_date')
+	
+		objectiveQuery=Objective.query().filter(Objective.user==current_user,Objective.date==current_date).fetch()
+		variable_dict = {
+			'date':current_date,
+			'objectives':objectiveQuery
+			#'events': Event.query().filter(Event.date==current_date).fetch()
 		}
 
-		day_template = the_jinja_env.get_template('templates/day.html')
 		self.response.write(day_template.render(variable_dict))
 
-class DailyEvent(webapp2.RequestHandler):
+class AccountHandler(BaseHandler):
+	def get(self):
+		account_template = the_jinja_env.get_template('templates/account.html')
+		self.response.write(account_template.render())
+
+#class DayHandler(BaseHandler):
+	
+
+
+		
+class DailyObjectives(BaseHandler):
 	def post(self):
-
-    user = getCurrentUser(self)
-		event = self.request.get('event')
-		new_event = Event(name=event, user = user)
-
-		user = getCurrentUser(self)
-		event = self.request.get('event')
-		new_event = Event(name=event,user=user)
-
-
-		events_query = Event.query().fetch()
-
-
-		events_query.insert(0,new_event)
-		new_event.put()
-
-		variable_dict = { 
-			'events':events_query
-		}
-
 		day_template = the_jinja_env.get_template('templates/day.html')
+
+		current_user = getCurrentUser(self);
+		current_date = self.request.get('current_date')
+
+		objective = self.request.get('objective')
+		add_objective = Objective(name=objective,user=current_user,date=current_date)
+		add_objective.put()
+
+		variable_dict = {
+			'date':current_date,
+			'objectives':Objective.query().filter(Objective.user==current_user,Objective.date==current_date).fetch()
+		}
 		self.response.write(day_template.render(variable_dict))
 
 
@@ -218,12 +190,13 @@ config['webapp2_extras.sessions'] = {
 app = webapp2.WSGIApplication([
   #('/', MainPage),
   ('/', MainHandler),
+  ('/logged_home',LoggedInHome),
   ('/login', LoginHandler),
   ('/about', AboutHandler),
   ('/signup', SignUp),
   ('/planner',Planner),
-  ('/daily_objective',DailyObjective),
-  ('/daily_event', DailyEvent),
+  ('/account',AccountHandler),
   ('/logout',LogOut),
-  ('/day',DayHandler)
+  #('/day',DayHandler),
+  ('/objectives',DailyObjectives)
   ], debug=True, config=config)

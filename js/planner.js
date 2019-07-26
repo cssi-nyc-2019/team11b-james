@@ -4,7 +4,7 @@ let currentYear = today.getFullYear();
 let selectYear = document.getElementById("year");
 let selectMonth = document.getElementById("month");
 
-let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 let monthAndYear = document.getElementById("monthAndYear");
 showCalendar(currentMonth, currentYear);
@@ -48,7 +48,7 @@ function showCalendar(month, year) {
     for (let i = 0; i < 6; i++) {
         // creates a table row
         let row = document.createElement("tr");
-        row.setAttribute("id", "")
+
         //creating individual cells, filing them up with data.
         for (let j = 0; j < 7; j++) {
             if (i === 0 && j < firstDay) {
@@ -56,53 +56,34 @@ function showCalendar(month, year) {
                 let cellText = document.createTextNode("");
                 cell.appendChild(cellText);
                 row.appendChild(cell);
-                cell.classList.add("days");
-                cell.setAttribute('id', `${currentYear}${months[month]}${date}`)
-
+                cell.setAttribute('id',`${year} ${month} ${date}`);
             }
             else if (date > daysInMonth) {
                 break;
             }
 
-
             else {
                 let cell = document.createElement("td");
                 let cellText = document.createTextNode(date);
-                cell.classList.add("days");
-                cell.setAttribute('id', `${currentYear} ${months[month]} ${date}`)
-                console.log()
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                     cell.classList.add("bg-info");
                 } // color today's date
                 cell.appendChild(cellText);
                 row.appendChild(cell);
                 date++;
+                cell.addEventListener('click',onClick);
             }
-
-            
 
 
         }
 
         tbl.appendChild(row); // appending each row into calendar body.
     }
-    
 
 }
-newID = null;
-$(document).ready(function(){
-    $(".days").dblclick(showDaily)
 
-function showDaily(){
-    console.log('Getting daily data')
-    let id = this.id
-    newID = id
-    $(location).attr('href', '/day')
-    $('.template').append(`The date is ${id} `)
-    console.log(id)
-
-
-};
-
-});
+function onClick(e){
+  let id = e.target.id;
+  $.post('/planner',{'current_date':id});
+}
 
