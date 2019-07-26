@@ -138,6 +138,7 @@ class Planner(BaseHandler):
 		else:
 			self.redirect('/')
 
+
 	def post(self):
 		day_template = the_jinja_env.get_template("templates/day.html")
 
@@ -150,9 +151,6 @@ class Planner(BaseHandler):
 			'objectives':objectiveQuery
 			#'events': Event.query().filter(Event.date==current_date).fetch()
 		}
-
-		self.response.write(day_template.render(variable_dict))
-
 class AccountHandler(BaseHandler):
 	def get(self):
 		account_template = the_jinja_env.get_template('templates/account.html')
@@ -161,24 +159,6 @@ class AccountHandler(BaseHandler):
 #class DayHandler(BaseHandler):
 	
 
-
-		
-class DailyObjectives(BaseHandler):
-	def post(self):
-		day_template = the_jinja_env.get_template('templates/day.html')
-
-		current_user = getCurrentUser(self);
-		current_date = self.request.get('current_date')
-
-		objective = self.request.get('objective')
-		add_objective = Objective(name=objective,user=current_user,date=current_date)
-		add_objective.put()
-
-		variable_dict = {
-			'date':current_date,
-			'objectives':Objective.query().filter(Objective.user==current_user,Objective.date==current_date).fetch()
-		}
-		self.response.write(day_template.render(variable_dict))
 
 
 config = {}
@@ -198,5 +178,5 @@ app = webapp2.WSGIApplication([
   ('/account',AccountHandler),
   ('/logout',LogOut),
   #('/day',DayHandler),
-  ('/objectives',DailyObjectives)
+  # ('/objectives',DailyObjectives)
   ], debug=True, config=config)
